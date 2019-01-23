@@ -1,0 +1,41 @@
+<div style="float: left">
+  <ul class="list-group margin-none">
+    <ng-template ngFor let-item [ngForOf]="items" let-i="index">
+      <li class="list-group-item" *ngIf="item.isLabel == true">
+        <b>{{item.key}}</b>
+      </li>
+      <li class="list-group-item cursor-default" *ngIf="item.isLabel != true" style="user-select:none; cursor:pointer; border-radius: 0px; border: 1px solid #cecece;"
+        (click)="toggleItem(item)" [style.background-color]="getColor(item)">
+
+        {{item?.key}}
+
+        <ng-template [ngIf]="!item.children || item.children.length === 0">
+          <div class="checkbox pull-right" (click)="changeSelection($event,item)">
+            <div *ngIf="item.selectionState == 1"><span class="glyphicon glyphicon-ok pull-right" style="color: green"></span></div>
+          </div>
+        </ng-template>
+
+        <ng-template [ngIf]="item.children !== undefined && item.children.length > 0">
+          <div class=" checkbox pull-right" (click)="changeSelection($event,item)">
+            <div *ngIf="item.selectionState == 1">
+              <span class="glyphicon glyphicon-ok pull-right" style="color: green"></span>
+            </div>
+            <div *ngIf="item.selectionState == 2">
+              <span class="glyphicon glyphicon-ok pull-right" style="color: dimgrey"></span>
+            </div>
+          </div>
+        </ng-template>
+        <!-- <div>
+          <span style="font-style: italic; font-size: small">{{item.childSelectionText}}</span>
+        </div> -->
+      </li>
+
+    </ng-template>
+  </ul>
+</div>
+
+<div style="display: inline">
+  <ng-template [ngIf]="activeItem !== undefined && activeItem.children !== undefined">
+    <app-tree-view #childTreeView [items]="activeItem.children"></app-tree-view>
+  </ng-template>
+</div>
